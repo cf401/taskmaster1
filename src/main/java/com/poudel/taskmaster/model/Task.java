@@ -16,7 +16,8 @@ public class Task {
     private String description;
     private String status;
     private String assignee;
-    private List<History> historyList = new ArrayList<>();
+
+    private ArrayList<History> historyList = new ArrayList<>();
 
     public Task(){}
 
@@ -24,22 +25,28 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = "available";
-        this.historyList = new ArrayList<>();
+
+        this.historyList.add(historyCreation(this.status));
+
         this.assignee = null;
     }
 
     public Task(String title, String description, String assignee){
         this.title = title;
         this.description = description;
+
         this.status = "assigned";
-        this.historyList= new ArrayList<>();
+        this.historyList.add(historyCreation(this.status));
+
         this.assignee = assignee;
     }
 
 
     public History historyCreation(String update) {
-        String date = new Date().toString();
-        History history = new History(update);
+
+        Date date = new Date();
+        History history = new History(date.toString(), update );
+
         return history;
     }
 
@@ -91,11 +98,11 @@ public class Task {
     }
 
     @DynamoDBAttribute
-    public List<History> getHistoryList() {
+    public ArrayList<History> getHistoryList() {
         return historyList;
     }
 
-    public void setHistoryList(List<History> historyList) {
+    public void setHistoryList(ArrayList<History> historyList) {
         this.historyList = historyList;
     }
 
